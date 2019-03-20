@@ -1,60 +1,58 @@
 <template lang="pug">
-.regulations.app-container(style="display:flex;flex:1")
-  .content(style="width:100%;")
-    el-form(
-      style="width:60%;"
-      :model="filterForm"
-      ref="filterForm"
-      :inline="true"
-      label-width="120px"
-      label-position="right"
-      )
-      el-form-item(label="关键字:" prop="name")
-        el-input.filter-item(
-            placeholder="请输入关键字"
-            v-model="filterForm.keyword"
-            @keyup.enter.native="search"
-            clearable
-            )
-      el-form-item
-          el-button.filter-item(
-            type="primary"
-            icon="el-icon-search"
-            style="margin-left: 10px;"
-            @click="search") 查询
-          el-button.filter-item(
-            type="warning"
-            icon="el-icon-refresh"
-            style="margin-left: 10px;"
-            @click="reset") 重置
-    .layout-row(style="margin-bottom: 15px")
-      el-button.filter-item(
-        style="margin-left: 10px;"
-        type="primary"
-        icon="el-icon-circle-plus-outline"
-        @click="add") 新增
-      el-button(
-        type="danger"
-        icon="el-icon-delete"
-        style="margin-left: 10px;"
-        @click="onDelete"
-        :disabled="deleteDisable") 批量删除
-    .table-warp
-      simple-table(
-        :listLoading="tableLoading"
-        :columns="columns"
-        :list="tableData"
-        :hasSelection='true'
-        :hasPopover="false"
-        :operation="operation"
-        :operationWidth="operationWidth"
-        :totalCount="totalCount"
-        :listQuery="listQuery"
-        @onGetList="onGetTableList"
-        @onModify="onModify"
-        @onDelete="onDelete"
-        @onSelectionChange="onSelectionChange"
-      )
+.regulations.app-container.layout-row.flex
+  .content.layout-column.flex
+    .filter-container
+      el-form.filter-form(
+        :model="filterForm"
+        ref="filterForm"
+        :inline="true"
+        )
+        .form-inline.filter-item.form-label
+          el-form-item(label="关键字:" prop="name")
+            el-input.filter-item(
+                placeholder="请输入关键字"
+                v-model="filterForm.keyword"
+                @keyup.enter.native="search"
+                clearable
+                )
+          el-form-item.search-btn-group
+              el-button(
+                type="primary"
+                icon="el-icon-search"
+                @click="search") 查询
+              el-button(
+                type="warning"
+                icon="el-icon-refresh"
+                  @click="reset") 重置
+      .layout-row
+        el-button.filter-item(
+          type="primary"
+          icon="el-icon-circle-plus-outline"
+          @click="add") 新增
+        el-button(
+          type="primary"
+          icon="el-icon-upload2"
+          @click="") 导入
+        el-button(
+          type="danger"
+          icon="el-icon-delete"
+          @click="onDelete"
+          :disabled="deleteDisable") 批量删除
+    simple-table(
+      :listLoading="tableLoading"
+      :columns="columns"
+      :list="tableData"
+      :hasSelection='true'
+      :hasPopover="false"
+      :operation="operation"
+      :operationWidth="operationWidth"
+      :totalCount="totalCount"
+      :listQuery="listQuery"
+      @onGetList="onGetTableList"
+      @onModify="onModify"
+      @onDelete="onDelete"
+      @onSelectionChange="onSelectionChange"
+    )
   modify-dialog(
     :show="showDialog"
     @onClose="showDialog = false"
@@ -330,19 +328,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.regulations {
-  .content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    /deep/ .el-form-item {
-      margin-bottom: 10px;
-    }
-    .table-warp {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-    }
-  }
-}
+
 </style>
