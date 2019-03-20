@@ -83,6 +83,18 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/regulations/',
+    component: Layout,
+    children: [{
+      path: 'userManagement',
+      name: '法制法规',
+      component: () => import('@/views/pages/Regulations/index'),
+      meta: {
+        title: '法制法规',
+        icon: 'iconfont iconfaguichaxun' }
+    }]
+  },
+  {
     path: '/mechanism/',
     redirect: 'noredirect',
     component: Layout,

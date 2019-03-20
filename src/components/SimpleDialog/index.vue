@@ -21,10 +21,16 @@
           v-model="formData[item.prop]"
           :disable="item.disabled"
           :size="item.size"
-          type="text"
+          :type="item.type"
           auto-complete="off"
           placeholder="请输入"
           class="form-input")
+        el-date-picker(
+          v-if="item.time"
+          placeholder="请选择时间"
+          :type="item.type"
+          value-format="yyyy-MM-dd"
+          v-model="formData[item.prop]")
         el-select(
           v-if="item.select"
           v-model="formData[item['prop']]"
