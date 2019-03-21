@@ -74,8 +74,6 @@ import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'Regulations',
-  title:'法制法规',
-  icon:'iconfont iconfaguichaxun',
   components: {
     SimpleTable,
     ModifyDialog
@@ -94,49 +92,34 @@ export default {
       columns: [
         {
           prop: 'legalSystem',
-          label: '法规制度',
+          label: '机关',
           align: 'center',
           fixed: 'fixed',
           width: 200
         },
         {
           prop: 'regulationsCategory',
-          label: '法规类别',
+          label: '单位',
           align: 'center'
         },
         {
           prop: 'rules',
-          label: '法规内容',
+          label: '项目申报书',
           align: 'center'
         },
         {
           prop: 'units',
-          label: '法规颁发单位',
+          label: '预算请示件',
           align: 'center'
         },
         {
           prop: 'issueTime',
-          label: '颁发时间',
-          align: 'center'
-        },
-        {
-          prop: 'phone',
-          label: '联系电话',
-          align: 'center'
-        },
-        {
-          prop: 'createdTime',
-          label: '创建时间',
-          align: 'center'
-        },
-        {
-          prop: 'modifyTime',
-          label: '更新时间',
+          label: '申请时间',
           align: 'center'
         }
       ],
       tableData: [],
-      operationWidth: '200',
+      operationWidth: '300',
       operation: [
         {
           type: 'primary',
@@ -181,8 +164,7 @@ export default {
         },
         { label: '法规内容', prop: 'rules', input: true, type: 'text' },
         { label: '法规颁发单位', prop: 'units', input: true, type: 'text' },
-        { label: '颁发时间', prop: 'issueTime', time: true, type: 'date' },
-        { label: '联系电话', prop: 'phone', input: true, type: 'number' }
+        { label: '颁发时间', prop: 'issueTime', time: true, type: 'date' }
       ],
       diaLogformRules: {
         legalSystem: [

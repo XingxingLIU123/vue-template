@@ -74,8 +74,6 @@ import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'Regulations',
-  title:'法制法规',
-  icon:'iconfont iconfaguichaxun',
   components: {
     SimpleTable,
     ModifyDialog
@@ -94,49 +92,29 @@ export default {
       columns: [
         {
           prop: 'legalSystem',
-          label: '法规制度',
+          label: '项目名称',
           align: 'center',
           fixed: 'fixed',
           width: 200
         },
         {
           prop: 'regulationsCategory',
-          label: '法规类别',
+          label: '执行阶段',
           align: 'center'
         },
         {
           prop: 'rules',
-          label: '法规内容',
+          label: '执行进度',
           align: 'center'
         },
         {
           prop: 'units',
-          label: '法规颁发单位',
-          align: 'center'
-        },
-        {
-          prop: 'issueTime',
-          label: '颁发时间',
-          align: 'center'
-        },
-        {
-          prop: 'phone',
-          label: '联系电话',
-          align: 'center'
-        },
-        {
-          prop: 'createdTime',
-          label: '创建时间',
-          align: 'center'
-        },
-        {
-          prop: 'modifyTime',
-          label: '更新时间',
+          label: '开展状态',
           align: 'center'
         }
       ],
       tableData: [],
-      operationWidth: '200',
+      operationWidth: '300',
       operation: [
         {
           type: 'primary',
@@ -180,9 +158,7 @@ export default {
           type: 'text'
         },
         { label: '法规内容', prop: 'rules', input: true, type: 'text' },
-        { label: '法规颁发单位', prop: 'units', input: true, type: 'text' },
-        { label: '颁发时间', prop: 'issueTime', time: true, type: 'date' },
-        { label: '联系电话', prop: 'phone', input: true, type: 'number' }
+        { label: '法规颁发单位', prop: 'units', input: true, type: 'text' }
       ],
       diaLogformRules: {
         legalSystem: [
@@ -195,9 +171,6 @@ export default {
         phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
         units: [
           { required: true, message: '请输入法规颁发单位', trigger: 'blur' }
-        ],
-        issueTime: [
-          { required: true, message: '请选择颁发时间', trigger: 'change' }
         ]
       },
 

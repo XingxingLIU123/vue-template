@@ -74,8 +74,6 @@ import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'Regulations',
-  title:'法制法规',
-  icon:'iconfont iconfaguichaxun',
   components: {
     SimpleTable,
     ModifyDialog
@@ -94,49 +92,44 @@ export default {
       columns: [
         {
           prop: 'legalSystem',
-          label: '法规制度',
+          label: '资料类型',
           align: 'center',
           fixed: 'fixed',
           width: 200
         },
         {
           prop: 'regulationsCategory',
-          label: '法规类别',
+          label: '名称',
           align: 'center'
         },
         {
           prop: 'rules',
-          label: '法规内容',
+          label: '军事训练',
           align: 'center'
         },
         {
           prop: 'units',
-          label: '法规颁发单位',
+          label: '装备建设',
           align: 'center'
         },
         {
           prop: 'issueTime',
-          label: '颁发时间',
+          label: '编制体制',
           align: 'center'
         },
         {
           prop: 'phone',
-          label: '联系电话',
+          label: '军事理论建设',
           align: 'center'
         },
         {
           prop: 'createdTime',
           label: '创建时间',
           align: 'center'
-        },
-        {
-          prop: 'modifyTime',
-          label: '更新时间',
-          align: 'center'
         }
       ],
       tableData: [],
-      operationWidth: '200',
+      operationWidth: '300',
       operation: [
         {
           type: 'primary',
