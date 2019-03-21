@@ -1,5 +1,5 @@
 <template lang="pug">
-.regulations.app-container.layout-row.flex
+.inland-chemical.app-container.layout-row.flex
   .content.layout-column.flex
     .filter-container
       el-form.filter-form(
@@ -65,15 +65,15 @@
 
 <script>
 import {
-  getRegulations,
-  deleteRegulations,
-  modifyRegulations,
-  addRegulations
-} from '@/api/regulations'
+  getInlandChemical,
+  deleteInlandChemical,
+  modifyInlandChemical,
+  addInlandChemical
+} from '@/api/inlandChemical'
 import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
-  name: 'Regulations',
+  name: 'InlandChemical',
   components: {
     SimpleTable,
     ModifyDialog
@@ -91,35 +91,40 @@ export default {
       },
       columns: [
         {
-          prop: 'legalSystem',
-          label: '法规制度',
+          prop: 'name',
+          label: '名称',
           align: 'center',
-          fixed: 'fixed',
+          fixed: 'left',
           width: 200
         },
         {
-          prop: 'regulationsCategory',
-          label: '法规类别',
+          prop: 'category',
+          label: '类别',
           align: 'center'
         },
         {
-          prop: 'rules',
-          label: '法规内容',
+          prop: 'address',
+          label: '地址',
           align: 'center'
         },
         {
-          prop: 'units',
-          label: '法规颁发单位',
+          prop: 'productivity',
+          label: '年生产力',
           align: 'center'
         },
         {
-          prop: 'issueTime',
-          label: '颁发时间',
+          prop: 'majorHazardSources',
+          label: '主要危险源种类',
           align: 'center'
         },
         {
-          prop: 'phone',
-          label: '联系电话',
+          prop: 'reserves',
+          label: '储量',
+          align: 'center'
+        },
+        {
+          prop: 'riskAreaAssessment',
+          label: '危险范围评估',
           align: 'center'
         },
         {
@@ -162,40 +167,51 @@ export default {
       // 弹窗
       showDialog: false,
       formData: {
-        legalSystem: '',
-        regulationsCategory: '',
-        rules: '',
-        phone: '',
-        issueTime: '',
-        units: ''
+        name: '',
+        category: '',
+        productivity: '',
+        majorHazardSources: '',
+        reserves: '',
+        address: '',
+        riskAreaAssessment: ''
       },
       formItems: [
-        { label: '法规制度', prop: 'legalSystem', input: true, type: 'text' },
+        { label: '名称', prop: 'name', input: true, type: 'text' },
         {
-          label: '法规类别',
-          prop: 'regulationsCategory',
+          label: '类别',
+          prop: 'category',
           input: true,
           type: 'text'
         },
-        { label: '法规内容', prop: 'rules', input: true, type: 'text' },
-        { label: '法规颁发单位', prop: 'units', input: true, type: 'text' },
-        { label: '颁发时间', prop: 'issueTime', time: true, type: 'date' },
-        { label: '联系电话', prop: 'phone', input: true, type: 'number' }
+        { label: '地址', prop: 'address', input: true, type: 'text' },
+        { label: '年生产力', prop: 'productivity', input: true, type: 'text' },
+        { label: '储量', prop: 'reserves', input: true, type: 'text' },
+        {
+          label: '主要危险源种类',
+          prop: 'majorHazardSources',
+          input: true,
+          type: 'text'
+        },
+        {
+          label: '危险范围评估',
+          prop: 'riskAreaAssessment',
+          input: true,
+          type: 'text'
+        }
       ],
       diaLogformRules: {
-        legalSystem: [
-          { required: true, message: '请输入法规制度', trigger: 'blur' }
+        name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
+        category: [{ required: true, message: '请输入类别', trigger: 'blur' }],
+        address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
+        productivity: [
+          { required: true, message: '请输入年生产力', trigger: 'blur' }
         ],
-        regulationsCategory: [
-          { required: true, message: '请输入法规类别', trigger: 'blur' }
+        majorHazardSources: [
+          { required: true, message: '请输入主要危险源种类', trigger: 'blur' }
         ],
-        rules: [{ required: true, message: '请输入法规内容', trigger: 'blur' }],
-        phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
-        units: [
-          { required: true, message: '请输入法规颁发单位', trigger: 'blur' }
-        ],
-        issueTime: [
-          { required: true, message: '请选择颁发时间', trigger: 'change' }
+        reserves: [{ required: true, message: '请输入储量', trigger: 'blur' }],
+        riskAreaAssessment: [
+          { required: true, message: '请输入危险范围评估', trigger: 'blur' }
         ]
       },
 
@@ -214,7 +230,7 @@ export default {
      */
     onGetTableList() {
       this.tableLoading = true
-      getRegulations(this.listQuery).then(res => {
+      getInlandChemical(this.listQuery).then(res => {
         this.tableData = res.data.items
         this.totalCount = res.data.total
         setTimeout(() => {
@@ -258,12 +274,13 @@ export default {
         this.formData = Object.assign(this.formData, row)
       } else {
         this.formData = {
-          legalSystem: '',
-          regulationsCategory: '',
-          rules: '',
-          phone: '',
-          issueTime: '',
-          units: ''
+          name: '',
+          category: '',
+          productivity: '',
+          majorHazardSources: '',
+          reserves: '',
+          address: '',
+          riskAreaAssessment: ''
         }
       }
       this.showDialog = true
@@ -281,7 +298,7 @@ export default {
         .then(() => {
           let id = []
           row ? id.push(row.id) : (id = this.selectIds)
-          deleteRegulations({ ids: JSON.stringify(id) }).then(res => {
+          deleteInlandChemical({ ids: JSON.stringify(id) }).then(res => {
             // console.log(res)
             this.onGetTableList()
             this.$message({
@@ -308,14 +325,14 @@ export default {
      */
     onConfirm(formData) {
       if (this.isModify) {
-        modifyRegulations(formData).then(res => {
+        modifyInlandChemical(formData).then(res => {
           this.$message.success('修改成功')
           this.onGetTableList()
           this.showDialog = false
           this.isModify = false
         })
       } else {
-        addRegulations(formData).then(res => {
+        addInlandChemical(formData).then(res => {
           this.$message.success('添加成功')
           this.onGetTableList()
           this.showDialog = false
@@ -328,5 +345,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
