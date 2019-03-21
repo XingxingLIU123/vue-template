@@ -111,30 +111,6 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/user/',
-    component: Layout,
-    children: [{
-      path: 'userManagement',
-      name: '用户管理',
-      component: () => import('@/views/pages/User/index'),
-      meta: {
-        title: '用户管理',
-        icon: 'iconfont iconyonghu' }
-    }]
-  },
-  {
-    path: '/roles/',
-    component: Layout,
-    children: [{
-      path: 'rolesManagement',
-      name: '角色管理',
-      component: () => import('@/views/pages/Roles/index'),
-      meta: {
-        title: '角色管理',
-        icon: 'iconfont iconjiaose' }
-    }]
-  },
-  {
     path: '/menu/',
     component: Layout,
     children: [{
@@ -144,21 +120,6 @@ export const asyncRouterMap = [
       meta: {
         title: '菜单管理',
         icon: 'iconfont iconGroup-' }
-    }]
-  },
-  {
-    path: '/log/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'log',
-      name: '日志管理',
-      component: () => import('@/views/pages/Logs/index'),
-      meta: {
-        title: '日志管理',
-        icon: 'iconfont iconrizhi',
-        noCache: true
-      }
     }]
   },
   {
@@ -209,6 +170,136 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/projectManagement',
+    component: Layout,
+    redirect: '/projectManagement/budgetManagement',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '项目管理',
+      icon: 'iconfont iconicon-project',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'budgetManagement',
+        component: () => import('@/views/pages/ProjectManagement/BudgetManagement/index'),
+        name: 'budgetManagement',
+        meta: {
+          title: '预算管理',
+          icon: 'iconfont iconyusuanyuchengbenguanli'
+        }
+      },
+      {
+        path: 'executionManagement',
+        component: () => import('@/views/pages/ProjectManagement/ExecutionManagement/index'),
+        name: 'executionManagement',
+        meta: {
+          icon: 'iconfont iconzhixing',
+          title: '执行管理'
+        }
+      },
+      {
+        path: 'scientificProject',
+        component: () => import('@/views/pages/ProjectManagement/ScientificProject/index'),
+        name: 'scientificProject',
+        meta: {
+          icon: 'iconfont iconkeyanqianxian',
+          title: '科研项目'
+        }
+      },
+      {
+        path: 'dataCollection',
+        component: () => import('@/views/pages/ProjectManagement/DataCollection/index'),
+        name: 'dataCollection',
+        meta: {
+          icon: 'iconfont iconwulumuqishigongandashujuguanlipingtai-ico-',
+          title: '数据采集'
+        }
+      }
+    ]
+  },
+  {
+    path: '/graduateMaterial',
+    component: Layout,
+    redirect: '/graduateMaterial/theoreticalStudy',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '研究资料',
+      icon: 'iconfont iconziliao',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'theoreticalStudy',
+        component: () => import('@/views/pages/GraduateMaterial/TheoreticalStudy/index'),
+        name: 'theoreticalStudy',
+        meta: {
+          title: '理论研究',
+          icon: 'iconfont iconziyuan'
+        }
+      },
+      {
+        path: 'foreignArmy',
+        component: () => import('@/views/pages/GraduateMaterial/ForeignArmy/index'),
+        name: 'foreignArmy',
+        meta: {
+          icon: 'iconfont iconziliao1',
+          title: '外军资料'
+        }
+      }
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/userManagement',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '系统管理',
+      icon: 'iconfont iconnavicon-xtgl',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'userManagement',
+        name: '用户管理',
+        component: () => import('@/views/pages/System/User/index'),
+        meta: {
+          title: '用户管理',
+          icon: 'iconfont iconyonghu'
+        }
+      },
+      {
+        path: 'rolesManagement',
+        name: '角色管理',
+        component: () => import('@/views/pages/System/Roles/index'),
+        meta: {
+          title: '角色管理',
+          icon: 'iconfont iconjiaose'
+        }
+      },
+      {
+        path: 'log',
+        name: '日志管理',
+        component: () => import('@/views/pages/System/Logs/index'),
+        meta: {
+          title: '日志管理',
+          icon: 'iconfont iconrizhi',
+          noCache: true
+        }
+      },
+      {
+        path: 'dataBackup',
+        component: () => import('@/views/pages/System/DataBackup/index'),
+        name: 'dataBackup',
+        meta: {
+          icon: 'iconfont iconshujubeifen',
+          title: '数据备份'
+        }
+      }
+    ]
+  },
+  {
     path: '/chart',
     component: Layout,
     redirect: '/chart/flow',
@@ -229,7 +320,6 @@ export const asyncRouterMap = [
       }
     ]
   },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
 
