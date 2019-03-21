@@ -94,7 +94,7 @@ export default {
           prop: 'name',
           label: '名称',
           align: 'center',
-          fixed: 'fixed',
+          fixed: 'left',
           width: 200
         },
         {
@@ -139,7 +139,7 @@ export default {
         }
       ],
       tableData: [],
-      operationWidth: '300',
+      operationWidth: '200',
       operation: [
         {
           type: 'primary',

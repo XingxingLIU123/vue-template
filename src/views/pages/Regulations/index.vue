@@ -134,7 +134,7 @@ export default {
         }
       ],
       tableData: [],
-      operationWidth: '300',
+      operationWidth: '200',
       operation: [
         {
           type: 'primary',

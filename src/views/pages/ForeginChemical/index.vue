@@ -1,5 +1,5 @@
 <template lang="pug">
-.regulations.app-container.layout-row.flex
+.foregin-chemical.app-container.layout-row.flex
   .content.layout-column.flex
     .filter-container
       el-form.filter-form(
@@ -129,7 +129,7 @@ export default {
         }
       ],
       tableData: [],
-      operationWidth: '300',
+      operationWidth: '200',
       operation: [
         {
           type: 'primary',
