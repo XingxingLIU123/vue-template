@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+const context = require.context('../views/pages', true, /\.vue/)
 Vue.use(Router)
 
 /* Layout */
@@ -81,157 +81,178 @@ export default new Router({
   routes: constantRouterMap
 })
 
-export const asyncRouterMap = [
-  {
-    path: '/regulations/',
-    component: Layout,
-    children: [{
-      path: 'userManagement',
-      name: '法制法规',
-      component: () => import('@/views/pages/Regulations/index'),
-      meta: {
-        title: '法制法规',
-        icon: 'iconfont iconfaguichaxun' }
-    }]
-  },
-  {
-    path: '/mechanism/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'mechanism',
-      name: '机构管理',
-      component: () => import('@/views/pages/mechanism/index'),
-      meta: {
-        title: '机构管理',
-        icon: 'iconfont iconjigou',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/user/',
-    component: Layout,
-    children: [{
-      path: 'userManagement',
-      name: '用户管理',
-      component: () => import('@/views/pages/User/index'),
-      meta: {
-        title: '用户管理',
-        icon: 'iconfont iconyonghu' }
-    }]
-  },
-  {
-    path: '/roles/',
-    component: Layout,
-    children: [{
-      path: 'rolesManagement',
-      name: '角色管理',
-      component: () => import('@/views/pages/Roles/index'),
-      meta: {
-        title: '角色管理',
-        icon: 'iconfont iconjiaose' }
-    }]
-  },
-  {
-    path: '/menu/',
-    component: Layout,
-    children: [{
-      path: 'permissions',
-      name: '菜单管理',
-      component: () => import('@/views/pages/Menu/index'),
-      meta: {
-        title: '菜单管理',
-        icon: 'iconfont iconGroup-' }
-    }]
-  },
-  {
-    path: '/log/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'log',
-      name: '日志管理',
-      component: () => import('@/views/pages/Logs/index'),
-      meta: {
-        title: '日志管理',
-        icon: 'iconfont iconrizhi',
-        noCache: true
-      }
-    }]
-  },
-  {
-    path: '/attachment/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'attachment',
-      name: '附件管理',
-      component: () => import('@/views/pages/Attachment/index'),
-      meta: {
-        title: '附件管理',
-        icon: 'iconfont iconfujianguanli',
-        noCache: true
-      }
-    }]
-  },
-  {
-    path: '/dictionary/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'dictionary',
-      name: '字典管理',
-      component: () => import('@/views/pages/Dictionary/index'),
-      meta: {
-        title: '字典管理',
-        icon: 'iconfont iconzidian',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/param/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'param',
-      name: '参数管理',
-      component: () => import('@/views/pages/Param/index'),
-      meta: {
-        title: '参数管理',
-        icon: 'iconfont iconcanshupeizhi',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/chart',
-    component: Layout,
-    redirect: '/chart/flow',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: '图表',
-      icon: 'lock',
-      roles: ['admin'] // you can set roles in root nav
-    },
-    children: [
+export let asyncRouterMap = (()=>{
+  let router = []
+  context.keys().forEach(key => {
+    const component = context(key).default
+    router.push(
       {
-        path: 'flow',
-        component: () => import('@/pages/FlowChart/index'),
-        name: 'flow',
-        meta: {
-          title: '流程图'
-        }
+        path: `/${component.name}/`,
+        component: Layout,
+        children: [{
+          path: component.name,
+          name: component.title || '',
+          component: resolve => require([`@/views/pages/${component.name}/index`], resolve),
+          meta: {
+            title: component.title || '',
+            icon: component.icon || '' }
+        }]
       }
-    ]
-  },
+    )
+  })
+  return router
+})()
+// export const asyncRouterMap = [
+//   {
+//     path: '/regulations/',
+//     component: Layout,
+//     children: [{
+//       path: 'userManagement',
+//       name: '法制法规',
+//       component: () => import('@/views/pages/Regulations/index'),
+//       meta: {
+//         title: '法制法规',
+//         icon: 'iconfont iconfaguichaxun' }
+//     }]
+//   },
+//   {
+//     path: '/mechanism/',
+//     redirect: 'noredirect',
+//     component: Layout,
+//     children: [{
+//       path: 'mechanism',
+//       name: '机构管理',
+//       component: () => import('@/views/pages/mechanism/index'),
+//       meta: {
+//         title: '机构管理',
+//         icon: 'iconfont iconjigou',
+//         noCache: true
+//       }
+//     }
+//     ]
+//   },
+//   {
+//     path: '/user/',
+//     component: Layout,
+//     children: [{
+//       path: 'userManagement',
+//       name: '用户管理',
+//       component: () => import('@/views/pages/User/index'),
+//       meta: {
+//         title: '用户管理',
+//         icon: 'iconfont iconyonghu' }
+//     }]
+//   },
+//   {
+//     path: '/roles/',
+//     component: Layout,
+//     children: [{
+//       path: 'rolesManagement',
+//       name: '角色管理',
+//       component: () => import('@/views/pages/Roles/index'),
+//       meta: {
+//         title: '角色管理',
+//         icon: 'iconfont iconjiaose' }
+//     }]
+//   },
+//   {
+//     path: '/menu/',
+//     component: Layout,
+//     children: [{
+//       path: 'permissions',
+//       name: '菜单管理',
+//       component: () => import('@/views/pages/Menu/index'),
+//       meta: {
+//         title: '菜单管理',
+//         icon: 'iconfont iconGroup-' }
+//     }]
+//   },
+//   {
+//     path: '/log/',
+//     redirect: 'noredirect',
+//     component: Layout,
+//     children: [{
+//       path: 'log',
+//       name: '日志管理',
+//       component: () => import('@/views/pages/Logs/index'),
+//       meta: {
+//         title: '日志管理',
+//         icon: 'iconfont iconrizhi',
+//         noCache: true
+//       }
+//     }]
+//   },
+//   {
+//     path: '/attachment/',
+//     redirect: 'noredirect',
+//     component: Layout,
+//     children: [{
+//       path: 'attachment',
+//       name: '附件管理',
+//       component: () => import('@/views/pages/Attachment/index'),
+//       meta: {
+//         title: '附件管理',
+//         icon: 'iconfont iconfujianguanli',
+//         noCache: true
+//       }
+//     }]
+//   },
+//   {
+//     path: '/dictionary/',
+//     redirect: 'noredirect',
+//     component: Layout,
+//     children: [{
+//       path: 'dictionary',
+//       name: '字典管理',
+//       component: () => import('@/views/pages/Dictionary/index'),
+//       meta: {
+//         title: '字典管理',
+//         icon: 'iconfont iconzidian',
+//         noCache: true
+//       }
+//     }
+//     ]
+//   },
+//   {
+//     path: '/param/',
+//     redirect: 'noredirect',
+//     component: Layout,
+//     children: [{
+//       path: 'param',
+//       name: '参数管理',
+//       component: () => import('@/views/pages/Param/index'),
+//       meta: {
+//         title: '参数管理',
+//         icon: 'iconfont iconcanshupeizhi',
+//         noCache: true
+//       }
+//     }
+//     ]
+//   },
+//   {
+//     path: '/chart',
+//     component: Layout,
+//     redirect: '/chart/flow',
+//     alwaysShow: true, // will always show the root menu
+//     meta: {
+//       title: '图表',
+//       icon: 'lock',
+//       roles: ['admin'] // you can set roles in root nav
+//     },
+//     children: [
+//       {
+//         path: 'flow',
+//         component: () => import('@/pages/FlowChart/index'),
+//         name: 'flow',
+//         meta: {
+//           title: '流程图'
+//         }
+//       }
+//     ]
+//   },
 
-  { path: '*', redirect: '/404', hidden: true }
-]
+//   { path: '*', redirect: '/404', hidden: true }
+// ]
 
 // export const routerMap = {
 //   menu: {
