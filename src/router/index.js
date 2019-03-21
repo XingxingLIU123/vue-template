@@ -95,6 +95,37 @@ export const asyncRouterMap = [
     }]
   },
   {
+    path: '/chemical',
+    component: Layout,
+    // redirect: '/chemical/inland',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '核生化威胁环境',
+      icon: 'iconfont iconshenghua',
+      roles: ['admin'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'inland',
+        component: () => import('@/views/pages/InlandChemical/index'),
+        name: 'InlandChemical',
+        meta: {
+          title: '国内',
+          icon: 'iconfont iconguonei'
+        }
+      },
+      {
+        path: 'foregin',
+        component: () => import('@/views/pages/ForeginChemical/index'),
+        name: 'ForeginChemical',
+        meta: {
+          title: '国外',
+          icon: 'iconfont iconguowaiyou'
+        }
+      }
+    ]
+  },
+  {
     path: '/mechanism/',
     redirect: 'noredirect',
     component: Layout,
