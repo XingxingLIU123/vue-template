@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { orderBy } from 'lodash'
 const context = require.context('../views/pages', true, /\.vue/)
 Vue.use(Router)
 
@@ -81,25 +82,70 @@ export default new Router({
   routes: constantRouterMap
 })
 
-export let asyncRouterMap = (()=>{
-  let router = []
+export const asyncRouterMap = (() => {
+  const router = []
+  let components = []
   context.keys().forEach(key => {
     const component = context(key).default
-    router.push(
-      {
-        path: `/${component.name}/`,
-        component: Layout,
-        children: [{
+    components.push(component)
+  })
+  /* eslint-disable */
+  orderBy(components, '__file', 'desc').forEach(component => {
+    const src = String(component.__file).split('\\')
+    // 去掉component
+    if (src[4] === 'component') return
+    // console.log(component)
+    switch (src.length) {
+      case 5:
+        // 有子组件的
+        if (!component.name) {
+          router.push(
+            {
+              path: `/${src[3]}`,
+              component: Layout,
+              meta: {
+                title: component.title,
+                icon: component.icon || ''
+                // roles: ['admin']
+              },
+              children: []
+            }
+          )
+        } else {
+          // 没有子组件的
+          router.push(
+            {
+              path: `/${src[3]}/`,
+              component: Layout,
+              children: [{
+                path: component.name,
+                name: component.name || '',
+                component: components = resolve => require([`@/views/pages/${src[3]}/${src[4]}`], resolve),
+                meta: {
+                  title: component.title || '',
+                  icon: component.icon || '' }
+              }]
+            }
+          )
+        }
+        break
+      case 6:
+        const route = router.find(item => item.path === `/${src[3]}`)
+        route && route.children.push({
           path: component.name,
-          name: component.title || '',
-          component: resolve => require([`@/views/pages/${component.name}/index`], resolve),
+          name: component.name || '',
+          component: components = resolve => require([`@/views/pages/${src[3]}/${src[4]}/${src[5]}`], resolve),
           meta: {
             title: component.title || '',
             icon: component.icon || '' }
-        }]
-      }
-    )
+        })
+        break
+      default:
+        break
+    }
   })
+  /* eslint-enable */
+  console.log(router)
   return router
 })()
 // export const asyncRouterMap = [
