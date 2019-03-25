@@ -66,6 +66,8 @@ export default {
       onlyOneChild: null
     }
   },
+  mounted(){
+  },
   methods: {
     hasOneShowingChild(children, parent) {
       const showingChildren = children.filter(item => {
@@ -77,8 +79,11 @@ export default {
           return true
         }
       })
-
-      // When there is only one child router, the child router is displayed by default
+      // 如果是一个菜单下面有子菜单也要现实在下面
+      if(!parent.path.endsWith('/')){
+        return false;
+      }
+            // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
         return true
       }

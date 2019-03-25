@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { orderBy } from 'lodash'
+const path = require('path');
 const context = require.context('../views/pages', true, /\.vue/)
 Vue.use(Router)
 
@@ -85,14 +86,18 @@ export default new Router({
 export const asyncRouterMap = (() => {
   const router = []
   let components = []
+  console.log(path.resolve(__dirname, 'src/views/pages'))
+
   context.keys().forEach(key => {
     const component = context(key).default
     components.push(component)
   })
   /* eslint-disable */
   orderBy(components, '__file', 'desc').forEach(component => {
-    const src = String(component.__file).split('\\')
+    const src = String(component.__file).split('/')
+
     // 去掉component
+    console.log(src)
     if (src[4] === 'component') return
     // console.log(component)
     switch (src.length) {
@@ -145,7 +150,7 @@ export const asyncRouterMap = (() => {
     }
   })
   /* eslint-enable */
-  console.log(router)
+  // console.log(router)
   return router
 })()
 // export const asyncRouterMap = [
