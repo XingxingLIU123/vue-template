@@ -74,6 +74,7 @@ import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'TestOne',
+  router:'/test/TestOne',
   title: '测试-1',
   icon: 'iconfont iconfaguichaxun',
   components: {

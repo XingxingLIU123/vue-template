@@ -74,6 +74,7 @@ import ModifyDialog from '@/components/SimpleDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'Regulations',
+  router:'/Regulations/',
   title:'法制法规',
   icon:'iconfont iconfaguichaxun',
   components: {

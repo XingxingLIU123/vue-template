@@ -86,27 +86,39 @@ export default new Router({
 export const asyncRouterMap = (() => {
   const router = []
   let components = []
-  console.log(path.resolve(__dirname, 'src/views/pages'))
+  // console.log(path.resolve(__dirname, 'src/views/pages'))
 
   context.keys().forEach(key => {
     const component = context(key).default
     components.push(component)
   })
-  /* eslint-disable */
-  orderBy(components, '__file', 'desc').forEach(component => {
-    const src = String(component.__file).split('/')
-
-    // 去掉component
-    console.log(src)
-    if (src[4] === 'component') return
-    // console.log(component)
-    switch (src.length) {
-      case 5:
-        // 有子组件的
-        if (!component.name) {
+    orderBy(components, '__file', 'desc').forEach(component => {
+      const src = String(component.__file).split('/')
+      // 去掉组件vue
+      if (!component.title) return
+      // console.log(component)
+      const r = component.router.split('/')
+      debugger
+      if(r.length === 2){
+        if(!component.router.endsWith('/')){
           router.push(
             {
-              path: `/${src[3]}`,
+              path: `/${component.name}/`,
+              component: Layout,
+              children: [{
+                path: component.router,
+                name: component.name || '',
+                component: component,
+                meta: {
+                  title: component.title || '',
+                  icon: component.icon || '' }
+              }]
+            }
+          )
+        }else{
+          router.push(
+            {
+              path: `/${component.name}`,
               component: Layout,
               meta: {
                 title: component.title,
@@ -116,40 +128,21 @@ export const asyncRouterMap = (() => {
               children: []
             }
           )
-        } else {
-          // 没有子组件的
-          router.push(
-            {
-              path: `/${src[3]}/`,
-              component: Layout,
-              children: [{
-                path: component.name,
-                name: component.name || '',
-                component: components = resolve => require([`@/views/pages/${src[3]}/${src[4]}`], resolve),
-                meta: {
-                  title: component.title || '',
-                  icon: component.icon || '' }
-              }]
-            }
-          )
         }
-        break
-      case 6:
-        const route = router.find(item => item.path === `/${src[3]}`)
+      }else{
+        const route = router.find(item => item.path === `/${r[1]}`)
         route && route.children.push({
-          path: component.name,
-          name: component.name || '',
-          component: components = resolve => require([`@/views/pages/${src[3]}/${src[4]}/${src[5]}`], resolve),
-          meta: {
-            title: component.title || '',
-            icon: component.icon || '' }
-        })
-        break
-      default:
-        break
-    }
-  })
-  /* eslint-enable */
+            path: component.name,
+            name: component.name || '',
+            component: component,
+            meta: {
+              title: component.title || '',
+              icon: component.icon || '' }
+          })
+      }
+    })
+    console.log(router)
+    /* eslint-enable */
   // console.log(router)
   return router
 })()

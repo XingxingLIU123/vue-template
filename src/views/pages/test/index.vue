@@ -5,7 +5,9 @@
 <script>
 
 export default {
+  name:'test',
   title: '测试',
+  router:'/test',
   icon: 'iconfont iconfaguichaxun',
   data() {
     return {
