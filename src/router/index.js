@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { orderBy } from 'lodash'
-const path = require('path');
-const context = require.context('../views/pages', true, /\.vue/)
+// import { orderBy } from 'lodash'
+
 Vue.use(Router)
 
 /* Layout */
@@ -83,236 +82,36 @@ export default new Router({
   routes: constantRouterMap
 })
 
-export const asyncRouterMap = (() => {
-  const router = []
-  let components = []
-  // console.log(path.resolve(__dirname, 'src/views/pages'))
-
-  context.keys().forEach(key => {
-    const component = context(key).default
-    components.push(component)
-  })
-    orderBy(components, '__file', 'desc').forEach(component => {
-      const src = String(component.__file).split('/')
-      // 去掉组件vue
-      if (!component.title) return
-      // console.log(component)
-      const r = component.router.split('/')
-      debugger
-      if(r.length === 2){
-        if(!component.router.endsWith('/')){
-          router.push(
-            {
-              path: `/${component.name}/`,
-              component: Layout,
-              children: [{
-                path: component.router,
-                name: component.name || '',
-                component: component,
-                meta: {
-                  title: component.title || '',
-                  icon: component.icon || '' }
-              }]
-            }
-          )
-        }else{
-          router.push(
-            {
-              path: `/${component.name}`,
-              component: Layout,
-              meta: {
-                title: component.title,
-                icon: component.icon || ''
-                // roles: ['admin']
-              },
-              children: []
-            }
-          )
-        }
-      }else{
-        const route = router.find(item => item.path === `/${r[1]}`)
-        route && route.children.push({
-            path: component.name,
-            name: component.name || '',
-            component: component,
-            meta: {
-              title: component.title || '',
-              icon: component.icon || '' }
-          })
-      }
+const routeConfig = require('./router.json')
+const routePage = []
+routeConfig.forEach(item => {
+  const obj = {
+    path: item.path,
+    component: Layout,
+    children: [],
+    meta: Object.assign(item.meta, { role: ['admin', 'editor'] })
+  }
+  item.children.forEach(child => {
+    obj.children.push({
+      path: child.path,
+      // https://blog.csdn.net/alecor/article/details/83056952 解决webpack import 不能传入变量
+      component: () => import(`@/views/pages/${child.pathName}`),
+      name: child.name,
+      meta: Object.assign(child.meta, { role: ['admin', 'editor'] })
     })
-    console.log(router)
-    /* eslint-enable */
-  // console.log(router)
-  return router
-})()
-// export const asyncRouterMap = [
-//   {
-//     path: '/regulations/',
-//     component: Layout,
-//     children: [{
-//       path: 'userManagement',
-//       name: '法制法规',
-//       component: () => import('@/views/pages/Regulations/index'),
-//       meta: {
-//         title: '法制法规',
-//         icon: 'iconfont iconfaguichaxun' }
-//     }]
-//   },
-//   {
-//     path: '/mechanism/',
-//     redirect: 'noredirect',
-//     component: Layout,
-//     children: [{
-//       path: 'mechanism',
-//       name: '机构管理',
-//       component: () => import('@/views/pages/mechanism/index'),
-//       meta: {
-//         title: '机构管理',
-//         icon: 'iconfont iconjigou',
-//         noCache: true
-//       }
-//     }
-//     ]
-//   },
-//   {
-//     path: '/user/',
-//     component: Layout,
-//     children: [{
-//       path: 'userManagement',
-//       name: '用户管理',
-//       component: () => import('@/views/pages/User/index'),
-//       meta: {
-//         title: '用户管理',
-//         icon: 'iconfont iconyonghu' }
-//     }]
-//   },
-//   {
-//     path: '/roles/',
-//     component: Layout,
-//     children: [{
-//       path: 'rolesManagement',
-//       name: '角色管理',
-//       component: () => import('@/views/pages/Roles/index'),
-//       meta: {
-//         title: '角色管理',
-//         icon: 'iconfont iconjiaose' }
-//     }]
-//   },
-//   {
-//     path: '/menu/',
-//     component: Layout,
-//     children: [{
-//       path: 'permissions',
-//       name: '菜单管理',
-//       component: () => import('@/views/pages/Menu/index'),
-//       meta: {
-//         title: '菜单管理',
-//         icon: 'iconfont iconGroup-' }
-//     }]
-//   },
-//   {
-//     path: '/log/',
-//     redirect: 'noredirect',
-//     component: Layout,
-//     children: [{
-//       path: 'log',
-//       name: '日志管理',
-//       component: () => import('@/views/pages/Logs/index'),
-//       meta: {
-//         title: '日志管理',
-//         icon: 'iconfont iconrizhi',
-//         noCache: true
-//       }
-//     }]
-//   },
-//   {
-//     path: '/attachment/',
-//     redirect: 'noredirect',
-//     component: Layout,
-//     children: [{
-//       path: 'attachment',
-//       name: '附件管理',
-//       component: () => import('@/views/pages/Attachment/index'),
-//       meta: {
-//         title: '附件管理',
-//         icon: 'iconfont iconfujianguanli',
-//         noCache: true
-//       }
-//     }]
-//   },
-//   {
-//     path: '/dictionary/',
-//     redirect: 'noredirect',
-//     component: Layout,
-//     children: [{
-//       path: 'dictionary',
-//       name: '字典管理',
-//       component: () => import('@/views/pages/Dictionary/index'),
-//       meta: {
-//         title: '字典管理',
-//         icon: 'iconfont iconzidian',
-//         noCache: true
-//       }
-//     }
-//     ]
-//   },
-//   {
-//     path: '/param/',
-//     redirect: 'noredirect',
-//     component: Layout,
-//     children: [{
-//       path: 'param',
-//       name: '参数管理',
-//       component: () => import('@/views/pages/Param/index'),
-//       meta: {
-//         title: '参数管理',
-//         icon: 'iconfont iconcanshupeizhi',
-//         noCache: true
-//       }
-//     }
-//     ]
-//   },
-//   {
-//     path: '/chart',
-//     component: Layout,
-//     redirect: '/chart/flow',
-//     alwaysShow: true, // will always show the root menu
-//     meta: {
-//       title: '图表',
-//       icon: 'lock',
-//       roles: ['admin'] // you can set roles in root nav
-//     },
-//     children: [
-//       {
-//         path: 'flow',
-//         component: () => import('@/pages/FlowChart/index'),
-//         name: 'flow',
-//         meta: {
-//           title: '流程图'
-//         }
-//       }
-//     ]
-//   },
+  })
+  routePage.push(obj)
+})
+routePage.push({ 'path': '*', 'redirect': '/404', 'hidden': true })
+export const asyncRouterMap = routePage
 
-//   { path: '*', redirect: '/404', hidden: true }
-// ]
-
-// export const routerMap = {
-//   menu: {
-//     component: Layout,
-//     children: {
-//       permissions: {
-//         component: () => import('@/views/pages/menu/index')
-//       }
-//     }
-//   },
-//   log: {
-//     component: Layout,
-//     children: {
-//       log: {
-//         component: () => import('@/views/pages/logs/index')
-//       }
-//     }
-//   }
-// }
+export const routerMap = {
+  menu: {
+    component: Layout,
+    children: {
+      permissions: {
+        component: () => import('@/views/pages/menu/index')
+      }
+    }
+  }
+}
