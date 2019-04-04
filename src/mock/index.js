@@ -11,6 +11,11 @@ import userAPI from './user'
 import rolesAPI from './roles'
 import paramAPI from './param'
 import dicAPI from './dic'
+
+// 项目API
+import regulationsAPI from './regulations'
+import inlandChemicalAPI from './inlandChemical'
+import foreignChemicalAPI from './foreignChemical'
 // 修复在使用 MockJS 情况下，设置 withCredentials = true，且未被拦截的跨域请求丢失 Cookies 的问题
 // https://github.com/nuysoft/Mock/issues/300
 Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
@@ -24,7 +29,21 @@ Mock.XHR.prototype.send = function() {
 // Mock.setup({
 //   timeout: '350-600'
 // })
-
+// 法律法规相关
+Mock.mock(/\/regulations\/regulationsList/, 'get', regulationsAPI.getRegulations)
+Mock.mock(/\/regulations\/regulationsList/, 'delete', regulationsAPI.deleteRegulations)
+Mock.mock(/\/regulations\/regulationsList/, 'put', regulationsAPI.modifyRegulations)
+Mock.mock(/\/regulations\/regulationsList/, 'post', regulationsAPI.addRegulations)
+// 核生化威胁(国内)相关
+Mock.mock(/\/inlandChemical\/inlandChemicalList/, 'get', inlandChemicalAPI.getInlandChemical)
+Mock.mock(/\/inlandChemical\/inlandChemicalList/, 'delete', inlandChemicalAPI.deleteInlandChemical)
+Mock.mock(/\/inlandChemical\/inlandChemicalList/, 'put', inlandChemicalAPI.modifyInlandChemical)
+Mock.mock(/\/inlandChemical\/inlandChemicalList/, 'post', inlandChemicalAPI.addInlandChemical)
+// 核生化威胁(国外)相关
+Mock.mock(/\/foreignChemical\/foreignChemicalList/, 'get', foreignChemicalAPI.getForeignChemical)
+Mock.mock(/\/foreignChemical\/foreignChemicalList/, 'delete', foreignChemicalAPI.deleteForeignChemical)
+Mock.mock(/\/foreignChemical\/foreignChemicalList/, 'put', foreignChemicalAPI.modifyForeignChemical)
+Mock.mock(/\/foreignChemical\/foreignChemicalList/, 'post', foreignChemicalAPI.addForeignChemical)
 // 登录相关
 Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)

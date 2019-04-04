@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import { orderBy } from 'lodash'
 
 Vue.use(Router)
 
@@ -81,161 +82,36 @@ export default new Router({
   routes: constantRouterMap
 })
 
-export const asyncRouterMap = [
-  {
-    path: '/mechanism/',
-    redirect: 'noredirect',
+const routeConfig = require('./router.json')
+const routePage = []
+routeConfig.forEach(item => {
+  const obj = {
+    path: item.path,
     component: Layout,
-    children: [{
-      path: 'mechanism',
-      name: '机构管理',
-      component: () => import('@/views/pages/mechanism/index'),
-      meta: {
-        title: '机构管理',
-        icon: 'iconfont iconjigou',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/user/',
-    component: Layout,
-    children: [{
-      path: 'userManagement',
-      name: '用户管理',
-      component: () => import('@/views/pages/User/index'),
-      meta: {
-        title: '用户管理',
-        icon: 'iconfont iconyonghu' }
-    }]
-  },
-  {
-    path: '/roles/',
-    component: Layout,
-    children: [{
-      path: 'rolesManagement',
-      name: '角色管理',
-      component: () => import('@/views/pages/Roles/index'),
-      meta: {
-        title: '角色管理',
-        icon: 'iconfont iconjiaose' }
-    }]
-  },
-  {
-    path: '/menu/',
-    component: Layout,
-    children: [{
-      path: 'permissions',
-      name: '菜单管理',
-      component: () => import('@/views/pages/Menu/index'),
-      meta: {
-        title: '菜单管理',
-        icon: 'iconfont iconGroup-' }
-    }]
-  },
-  {
-    path: '/log/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'log',
-      name: '日志管理',
-      component: () => import('@/views/pages/Logs/index'),
-      meta: {
-        title: '日志管理',
-        icon: 'iconfont iconrizhi',
-        noCache: true
-      }
-    }]
-  },
-  {
-    path: '/attachment/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'attachment',
-      name: '附件管理',
-      component: () => import('@/views/pages/Attachment/index'),
-      meta: {
-        title: '附件管理',
-        icon: 'iconfont iconfujianguanli',
-        noCache: true
-      }
-    }]
-  },
-  {
-    path: '/dictionary/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'dictionary',
-      name: '字典管理',
-      component: () => import('@/views/pages/Dictionary/index'),
-      meta: {
-        title: '字典管理',
-        icon: 'iconfont iconzidian',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/param/',
-    redirect: 'noredirect',
-    component: Layout,
-    children: [{
-      path: 'param',
-      name: '参数管理',
-      component: () => import('@/views/pages/Param/index'),
-      meta: {
-        title: '参数管理',
-        icon: 'iconfont iconcanshupeizhi',
-        noCache: true
-      }
-    }
-    ]
-  },
-  {
-    path: '/chart',
-    component: Layout,
-    redirect: '/chart/flow',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: '图表',
-      icon: 'lock',
-      roles: ['admin'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'flow',
-        component: () => import('@/pages/FlowChart/index'),
-        name: 'flow',
-        meta: {
-          title: '流程图'
-        }
-      }
-    ]
-  },
+    children: [],
+    meta: Object.assign(item.meta, { role: ['admin', 'editor'] })
+  }
+  item.children.forEach(child => {
+    obj.children.push({
+      path: child.path,
+      // https://blog.csdn.net/alecor/article/details/83056952 解决webpack import 不能传入变量
+      component: () => import(`@/views/pages/${child.pathName}`),
+      name: child.name,
+      meta: Object.assign(child.meta, { role: ['admin', 'editor'] })
+    })
+  })
+  routePage.push(obj)
+})
+routePage.push({ 'path': '*', 'redirect': '/404', 'hidden': true })
+export const asyncRouterMap = routePage
 
-  { path: '*', redirect: '/404', hidden: true }
-]
-
-// export const routerMap = {
-//   menu: {
-//     component: Layout,
-//     children: {
-//       permissions: {
-//         component: () => import('@/views/pages/menu/index')
-//       }
-//     }
-//   },
-//   log: {
-//     component: Layout,
-//     children: {
-//       log: {
-//         component: () => import('@/views/pages/logs/index')
-//       }
-//     }
-//   }
-// }
+export const routerMap = {
+  menu: {
+    component: Layout,
+    children: {
+      permissions: {
+        component: () => import('@/views/pages/menu/index')
+      }
+    }
+  }
+}

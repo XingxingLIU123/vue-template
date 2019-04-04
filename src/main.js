@@ -13,7 +13,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import echarts from 'echarts'
-
+import axios from 'axios'
 import i18n from './lang' // Internationalization
 // import './icons' // icon
 import day from 'dayjs'
@@ -36,7 +36,17 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
-
+axios.get('/base/dict/dictMaps').then(res => {
+  if (res.data.success) {
+    const DICT = res.data.data.dictMap
+    Vue.prototype.DICTS = DICT
+  } else {
+    Vue.prototype.DICTS = {}
+  }
+}).catch(e => {
+  Vue.prototype.DICTS = {}
+})
+Vue.prototype.$http = axios
 new Vue({
   el: '#app',
   router,

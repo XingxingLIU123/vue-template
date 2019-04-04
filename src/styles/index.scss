@@ -218,7 +218,7 @@ code {
       min-height: 100%;
       // flex:$i 0 $i+%;
       flex:0 0 #{$i+'%'};
-    } 
+    }
   }
 }
 .layout-row__between{
@@ -238,8 +238,8 @@ code {
       min-width: 100%;
       max-height: #{$i+'%'};
   		flex:$i 0 #{$i+'%'};
-      // flex:0 0 $i+%; 
-  	} 
+      // flex:0 0 $i+%;
+  	}
   }
 }
 .layout-column__between{
@@ -260,4 +260,10 @@ code {
 }
 .txt-right{
   text-align: right;
+}
+.operation{
+  margin: 20px 0;
+  padding: 0 20px;
+  &-filter{
+  }
 }

@@ -75,48 +75,6 @@ export default {
     // console.log(config)
     return list
   },
-  // serverRouterMap: config => {
-  //   // console.log(config)
-  //   return [
-  //     {
-  //       path: '/menu/',
-  //       component: 'menu',
-  //       pName: 'menu',
-  //       children: [{
-  //         path: 'permissions',
-  //         name: '菜单/权限管理',
-  //         pName: 'permissions',
-  //         component: 'permissions',
-  //         meta: {
-  //           title: '菜单/权限管理',
-  //           icon: 'iconfont iconuser' }
-  //       }]
-  //     },
-  //     {
-  //       path: '/log/',
-  //       redirect: 'noredirect',
-  //       component: 'log',
-  //       name: '日志管理',
-  //       pName: 'log',
-  //       meta: {
-  //         title: '日志管理',
-  //         icon: 'documentation'
-  //         // noCache: true
-  //       },
-  //       children: [{
-  //         path: 'log',
-  //         name: '日志管理',
-  //         component: 'log',
-  //         pName: 'log',
-  //         meta: {
-  //           title: '日志管理',
-  //           icon: 'guide'
-  //           // noCache: true
-  //         }
-  //       }]
-  //     }
-  //   ]
-  // }
   tableList: config => {
     var req = param2Obj(config.url)
     const { title, page, limit } = JSON.parse(req.listQuery)

@@ -120,6 +120,13 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          // this.$http.post('/login', qs.stringify({username: 'admin', password: 'admin'}), {
+          //   headers: {
+          //     'Content-Type': 'application/x-www-form-urlencoded'
+          //   }
+          // }).then(res => {
+          //   this.$router.push({ path: this.redirect || '/' })
+          // })
           this.$store.dispatch('LoginByUsername', this.loginForm).then((res) => {
             if (!res) {
               this.loading = false
