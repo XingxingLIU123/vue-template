@@ -60,7 +60,6 @@
 </template>
 
 <script>
-// import { isvalidUsername } from '@/utils/validate'
 import SocialSign from './socialsignin'
 
 export default {
