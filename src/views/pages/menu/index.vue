@@ -64,7 +64,7 @@
 
 <script>
 import { list, tableList, modifyTree } from '@/api/menu'
-import ModifyDialog from './ModifyDialog'
+import ModifyDialog from './modifyDialog'
 import SimpleTable from '@/components/Table/SimpleTable'
 export default {
   name: 'Menu',
